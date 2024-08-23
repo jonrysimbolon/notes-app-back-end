@@ -1,14 +1,16 @@
+require('dotenv').config();
+
 const Hapi = require('@hapi/hapi');
 const notes = require('./api/notes');
-const NotesService = require('./services/inMemory/NotesService');
+const NotesService = require('./services/postgres/NotesService');
 const NotesValidator = require('./validator/notes');
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
   const notesService = new NotesService();
   const server = Hapi.server({
-    port: 5000,
-    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
+    port: process.env.PORT,
+    host: process.env.HOST,
     routes: {
       cors: {
         origin: ['*'],
@@ -24,28 +26,15 @@ const init = async () => {
     },
   });
 
-  // Middleware untuk menangani error secara lengkap
-  /*server.ext('onPreResponse', (request, h) => {
-    const response = request.response;
-
-    if (response.isBoom) {
-      console.error(response);
-      return h.response({
-        statusCode: response.output.statusCode,
-        error: response.output.payload.error,
-        message: response.message,
-        stack: response.stack,
-      }).code(response.output.statusCode);
-    }
-
-    return h.continue;
-  });*/
-
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
 
     const { response } = request;
     
+    /*if (response.isBoom) {
+      console.error(response); // munculkan error berikut line yang terdampak
+    }*/
+
     // penangangan client error secara internal
     if(response instanceof ClientError){
       const newResponse = h.response({
