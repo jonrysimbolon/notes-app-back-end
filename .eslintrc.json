@@ -10,6 +10,13 @@
         "ecmaVersion": 2020
     },
     "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "camelcase": "off",
+        "no-underscore-dangle": "off"
+    },
+    "spaced-comment": [ "error", "always", {
+    "line": {
+        "markers": ["#region", "#endregion", "region", "endregion"]
     }
+}]
 }
