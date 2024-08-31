@@ -24,7 +24,7 @@ class NotesHandler {
     response.code(201);
     return response;
   }
-
+ 
   async getNotesHandler() {
     const notes = await this._service.getNotes();
     return {
