@@ -3,4 +3,5 @@ notes-api-web-server.pem
 .env
 .prod.env
 src/api/uploads/file
+jonry_dicoding_accessKeys.csv
 src/.DS_Store
